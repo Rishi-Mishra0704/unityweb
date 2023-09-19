@@ -77,6 +77,26 @@ def delete_comment(request, pk):
 
 
 
+
+# Views for likes
+@api_view(['GET'])
+def likes(request):
+    likes = Like.objects.all()
+    serializer = LikeSerializer(likes, many=True)
+    return Response(serializer.data)
+
+
+
+@api_view(['POST'])
+def create_like(request):
+    serializer = LikeSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        print(serializer.errors)
+    return Response(serializer.data)
+
+
 # Views for users
 @api_view(['GET'])
 def users(request):
