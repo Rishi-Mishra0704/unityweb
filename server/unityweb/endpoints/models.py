@@ -12,7 +12,7 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Post by {self.author.username}"
+        return f" {self.name} by {self.author.username}"
 
 
 # Comment Model
