@@ -13,10 +13,8 @@ def signup(request):
             form.save()
             return HttpResponseRedirect("http://localhost:5173/")
         else:
-            form = SignUpForm()
-            print("invalid")
-            print(form.errors)
+            print("Form Errors:", form.errors)
     context = {
         "form": form
     }
-    return render(request, "core/signup.html", context)
+    return render(request, "register/signup.html", context)
