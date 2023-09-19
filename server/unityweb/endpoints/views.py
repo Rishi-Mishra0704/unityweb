@@ -51,7 +51,7 @@ def post(request, pk):
 # Views for comments
 @api_view(['GET'])
 def comments(request):
-    comments = Comment.objects.all()
+    comments = Comment.objects.all().order_by('-timestamp')
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)
 
