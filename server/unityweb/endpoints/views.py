@@ -48,6 +48,35 @@ def post(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# Views for comments
+@api_view(['GET'])
+def comments(request):
+    comments = Comment.objects.all()
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def create_comment(request):
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        print(serializer.errors)
+    return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def delete_comment(request, pk):
+    try:
+        comment = Comment.objects.get(id=pk)
+    except Comment.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    comment.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
 # Views for users
 @api_view(['GET'])
 def users(request):
