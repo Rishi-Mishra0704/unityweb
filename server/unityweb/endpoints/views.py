@@ -16,6 +16,7 @@ def posts(request):
 
 
 
+# Views for users
 @api_view(['GET'])
 def users(request):
     users = User.objects.all()
