@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from .forms import SignUpForm
 
 # Create your views here.
 
 def signup(request):
+    response = HttpResponse()
+    response["Access-Control-Allow-Origin"] = "*"
     form = SignUpForm()
     if request.method == "POST":
         form = SignUpForm(request.POST)
