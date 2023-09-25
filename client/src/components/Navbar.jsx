@@ -1,136 +1,104 @@
-"use client";
-import React, { useState } from "react";
+import { ChevronLast, ChevronFirst } from "lucide-react"
+import { useContext, createContext, useState } from "react"
 import { ImExit } from "react-icons/im";
-import logo from "../assets/logo.svg"
+import { BiSolidHome } from "react-icons/bi";
+import { BsSearch } from "react-icons/bs";
+import { AiFillWechat } from "react-icons/ai";
 
-const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+const SidebarContext = createContext()
 
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
+export default function Sidebar({ children }) {
+  const [expanded, setExpanded] = useState(true)
+  const [activeItem, setActiveItem] = useState("Home") // Initialize with the default active item
+  
+  const handleSidebarItemClick = (text) => {
+    setActiveItem(text)
+  }
+  
   return (
-    <nav
-      className={`fixed top-0 p-4 w-full font-bold bg-[#ea3883] z-50 ${
-        menuOpen ? "h-screen" : "h-auto"
-      }`}
-      style={{
-        background: 'linear-gradient(to right, #abdafb, #1e2ae6)',
-      }}
-    >
-      <div className="max-w-6xl h-16 mx-auto flex justify-between items-center">
-        <a href="/" className="text-white text-2xl font-semibold ml-4">
-          <img src={logo} alt="logo" className="w-16 h-16" />
-        </a>
-        <div
-          className={`hidden md:flex space-x-4 ${
-            menuOpen ? "hidden" : ""
-          } transition-opacity duration-300 ease-in-out`}
-        >
-          <a href="/" className="text-white text-xl hover:underline">
-            Home
-          </a>
-          <a href="/" className="text-white text-xl hover:underline">
-            About
-          </a>
-          <a href="/" className="text-white text-xl hover:underline">
-            Cars
-          </a>
-          <a href="/" className="text-white text-xl hover:underline">
-            Rentals
-          </a>
-          <a href="" className="text-white text-xl hover:underline">
-            Contact
-          </a>
+    <aside className="h-screen">
+      <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+        <div className="p-4 pb-2 flex justify-between items-center">
+          <img
+            src="https://img.logoipsum.com/243.svg"
+            className={`overflow-hidden transition-all ${
+              expanded ? "w-32" : "w-0"
+            }`}
+            alt=""
+          />
+          <button
+            onClick={() => setExpanded((curr) => !curr)}
+            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
+          >
+            {expanded ? <ChevronFirst /> : <ChevronLast />}
+          </button>
+        </div>
 
-          <button
-            onClick=""
-            className="flex flex-row justify-around text-white text-xl hover:underline"
-          >
-            Sign out<ImExit className="m-1 mx-2" />
-          </button>
-        </div>
-        <div className="md:hidden mr-4">
-          <button className="text-white" onClick={toggleMenu}>
-            <svg
-              className={`w-6 h-6 ${
-                menuOpen ? "hidden" : ""
-              } transition-opacity duration-300 ease-in-out`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-            <svg
-              className={`w-6 h-6 ${
-                menuOpen ? "" : "hidden"
-              } transition-opacity duration-300 ease-in-out`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      {menuOpen && (
-        <div className="flex flex-col justify-center my-16 items-center md:hidden bg-[#ea3883] space-y-4 transition-opacity duration-1000 ease-in-out">
-          <a
-            href="/"
-            className="block text-white p-2 text-3xl hover:bg-[#3c64e1]"
-          >
-            Home
-          </a>
-          <a
-            href="/"
-            className="block text-white p-2 text-3xl  hover:bg-[#3c64e1]"
-          >
-            About
-          </a>
-          <a
-            href="/"
-            className="block text-white p-2 text-3xl hover:bg-[#3c64e1]"
-          >
-            Cars
-          </a>
-          <a
-            href="/"
-            className="block text-white text-3xl hover:underline"
-          >
-            Rentals
-          </a>
-          <a
-            href="/"
-            className="block text-white p-2 text-3xl  hover:bg-[#3c64e1]"
-          >
-            Contact
-          </a>
-          <button
-            onClick=""
-            className="flex flex-row justify-around text-white text-3xl hover:underline ml-1"
-          >
-            Sign out <ImExit className="m-1 mx-2" />
-          </button>
+        <SidebarContext.Provider value={{ expanded, activeItem }}>
+            <ul className="flex-1 px-3">
+            {/* Use SidebarItem components with icons and text here */}
+            <SidebarItem icon={<BiSolidHome />} text="Home" onItemClick={handleSidebarItemClick} />
+            <SidebarItem icon={<BsSearch />} text="Browse" onItemClick={handleSidebarItemClick} />
+            <SidebarItem icon={<AiFillWechat />} text="Chats" alert={true} onItemClick={handleSidebarItemClick} />
+            <SidebarItem icon={<ImExit />} text="Exit" onItemClick={handleSidebarItemClick} />
+            {/* Add more SidebarItem components as needed */}
+          </ul>
+        </SidebarContext.Provider>
+      </nav>
+    </aside>
+  )
+}
+
+export function SidebarItem({ icon, text, alert, onItemClick }) {
+  const { expanded, activeItem } = useContext(SidebarContext)
+  const isActive = activeItem === text
+  
+  const handleClick = () => {
+    onItemClick(text)
+  }
+  
+  return (
+    <li
+      className={`
+        relative flex items-center py-2 px-3 my-1
+        font-medium rounded-md cursor-pointer
+        transition-colors group
+        ${
+          isActive
+            ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
+            : "hover:bg-indigo-50 text-gray-600"
+        }
+    `}
+      onClick={handleClick}
+    >
+      {icon}
+      <span
+        className={`overflow-hidden transition-all ${
+          expanded ? "w-52 ml-3" : "w-0"
+        }`}
+      >
+        {text}
+      </span>
+      {alert && (
+        <div
+          className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
+            expanded ? "" : "top-2"
+          }`}
+        />
+      )}
+
+      {!expanded && (
+        <div
+          className={`
+          absolute left-full rounded-md px-2 py-1 ml-6
+          bg-indigo-100 text-indigo-800 text-sm
+          invisible opacity-20 -translate-x-3 transition-all
+          group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
+      `}
+        >
+          {text}
         </div>
       )}
-    </nav>
-  );
-};
-
-export default Navbar;
+    </li>
+  )
+}

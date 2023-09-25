@@ -3,6 +3,7 @@ import axios from "axios";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Splash from "./pages/Splash";
 import Homepage from "./pages/Homepage";
+import Sidebar from "./components/Navbar";
 
 function App() {
   // Define a state variable to track whether the user is logged in or not
@@ -31,7 +32,8 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div className="flex">
+      <Sidebar/> 
       {isLoggedIn ? (
           <Routes>
             <Route path="/" element={<Homepage />} />
@@ -41,7 +43,7 @@ function App() {
           <Route path="/splash" element={<Splash />} />
         </Routes>
       )}
-    </>
+    </div>
   );
 }
 
