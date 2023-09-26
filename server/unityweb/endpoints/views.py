@@ -14,7 +14,7 @@ from .models import Post, Comment, Like
 def posts(request):
     response = HttpResponse()
     response["Access-Control-Allow-Origin"] = "*"
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-timestamp')
     serializer = PostSerializer(posts, many=True)
     return Response(serializer.data)
 

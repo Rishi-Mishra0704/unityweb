@@ -1,23 +1,23 @@
-import { ChevronLast, ChevronFirst } from "lucide-react"
-import { useContext, createContext, useState } from "react"
+import { ChevronLast, ChevronFirst } from "lucide-react";
+import { useContext, createContext, useState } from "react";
 import { ImExit } from "react-icons/im";
 import { BiSolidHome } from "react-icons/bi";
 import { BsSearch } from "react-icons/bs";
 import { AiFillWechat } from "react-icons/ai";
 
-const SidebarContext = createContext()
+const SidebarContext = createContext();
 
 export default function Sidebar({ children }) {
-  const [expanded, setExpanded] = useState(true)
-  const [activeItem, setActiveItem] = useState("Home") // Initialize with the default active item
-  
+  const [expanded, setExpanded] = useState(true);
+  const [activeItem, setActiveItem] = useState("Home"); // Initialize with the default active item
+
   const handleSidebarItemClick = (text) => {
-    setActiveItem(text)
-  }
-  
+    setActiveItem(text);
+  };
+
   return (
     <aside className="h-screen">
-      <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+      <nav className="h-full flex flex-col bg-[#121212] border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <img
             src="https://img.logoipsum.com/243.svg"
@@ -35,7 +35,7 @@ export default function Sidebar({ children }) {
         </div>
 
         <SidebarContext.Provider value={{ expanded, activeItem }}>
-            <ul className="flex-1 px-3">
+          <ul className="flex-1 px-3">
             {/* Use SidebarItem components with icons and text here */}
             <SidebarItem icon={<BiSolidHome />} text="Home" onItemClick={handleSidebarItemClick} />
             <SidebarItem icon={<BsSearch />} text="Browse" onItemClick={handleSidebarItemClick} />
@@ -46,17 +46,17 @@ export default function Sidebar({ children }) {
         </SidebarContext.Provider>
       </nav>
     </aside>
-  )
+  );
 }
 
 export function SidebarItem({ icon, text, alert, onItemClick }) {
-  const { expanded, activeItem } = useContext(SidebarContext)
-  const isActive = activeItem === text
-  
+  const { expanded, activeItem } = useContext(SidebarContext);
+  const isActive = activeItem === text;
+
   const handleClick = () => {
-    onItemClick(text)
-  }
-  
+    onItemClick(text);
+  };
+
   return (
     <li
       className={`
@@ -65,8 +65,8 @@ export function SidebarItem({ icon, text, alert, onItemClick }) {
         transition-colors group
         ${
           isActive
-            ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
-            : "hover:bg-indigo-50 text-gray-600"
+            ? "bg-[#0073e6] text-[#121212] text-shadow: 0 0 10px rgba(0, 115, 230, 0.9);"
+            : "bg-[#121212] text-[#ff2e63] hover:bg-[#0073e6] text-shadow: 0 0 10px rgba(255, 46, 99, 0.9);"
         }
     `}
       onClick={handleClick}
@@ -81,7 +81,7 @@ export function SidebarItem({ icon, text, alert, onItemClick }) {
       </span>
       {alert && (
         <div
-          className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
+          className={`absolute right-2 w-2 h-2 hover:bg-[#121212] rounded bg-[#ff2e63] ${
             expanded ? "" : "top-2"
           }`}
         />
@@ -91,7 +91,7 @@ export function SidebarItem({ icon, text, alert, onItemClick }) {
         <div
           className={`
           absolute left-full rounded-md px-2 py-1 ml-6
-          bg-indigo-100 text-indigo-800 text-sm
+          bg-[#121212] text-[#ff2e63] text-shadow: 0 0 10px rgba(255, 46, 99, 0.9); text-sm
           invisible opacity-20 -translate-x-3 transition-all
           group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
       `}
@@ -100,5 +100,5 @@ export function SidebarItem({ icon, text, alert, onItemClick }) {
         </div>
       )}
     </li>
-  )
+  );
 }

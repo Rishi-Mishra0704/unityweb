@@ -5,7 +5,7 @@ const Splash = () => {
     <div
       className="w-screen h-screen flex flex-col items-center justify-center shadow-lg" // Add shadow-lg here
       style={{
-        background: 'linear-gradient(45deg, #ea3883, #abdafb, #1e2ae6)',
+        background: 'linear-gradient(45deg, #5928ed, #abdafb, #1e2ae6)',
       }}
     >
       <div className="text-white p-12 text-center mb-6 shadow-lg">
@@ -20,7 +20,7 @@ const Splash = () => {
       <div className="space-x-4">
         <a
           href="http://127.0.0.1:8000/"
-          className="bg-[#ea3883] hover:bg-[#ee1a72] text-white text-xl font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
+          className="bg-[#5928ed] hover:bg-[#6b4acf] text-white text-xl font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
         >
           Signup
         </a>
